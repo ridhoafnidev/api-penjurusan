@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Hasil extends Model
+class HasilDetail extends Model
 {
 
-    protected $table = "tb_hasil";
+    protected $table = "tb_hasil_detail";
 
     protected $fillable = [
-       'id', 'siswa_id', 'hasil_angket', 'hasil_akhir'
+        'id_hasil_detail', 'hasil_id', 'jawaban_id'
     ];
 
 }

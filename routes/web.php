@@ -6,29 +6,31 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-//region Register
-
-$router->post('/register', 'UserController@register');
-
-//endregion
 //region Login
 
 $router->post('/login', 'UserController@login');
 
 //endregion
-//region Tipe Rumah
+//region Siswa
 
-$router->get('/tipe-rumah-all', 'TipeRumahController@getTipeRumahAll');
-$router->get('/tipe-rumah-by-id', 'TipeRumahController@getTipeRumahById');
-
-//endregion
-//region User
-
-//TODO
+$router->get('/siswa-all', 'SiswaController@getSiswaAll');
+$router->get('/siswa-by-user-id/{id}', 'SiswaController@getSiswaAll');
 
 //endregion
-//region CalonPemilik
+//region Guru
 
-//TODO
+$router->get('/guru-all', 'GuruController@getGuruAll');
+
+//endregion
+//region Pertanyaan
+
+$router->get('/pertanyaan-all', 'PertanyaanController@getPertanyaanAll');
+
+//endregion
+//region Hasil
+
+$router->get('/hasil-all', 'HasilController@getHasilAll');
+$router->post('/hasil-jawaban-insert', 'HasilController@insertHasilJawaban');
+
 
 //endregion

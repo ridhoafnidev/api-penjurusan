@@ -2,7 +2,15 @@
 
 namespace App\Models;
 
-class Hasil
+use Illuminate\Database\Eloquent\Model;
+
+class Hasil extends Model
 {
+
+    protected $table = "tb_hasil";
+
+    protected $fillable = [
+       'id_hasil', 'siswa_id', 'hasil_akhir'
+    ];
 
 }

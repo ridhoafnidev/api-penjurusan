@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 05, 2022 at 03:33 AM
+-- Generation Time: Mar 04, 2022 at 01:53 AM
 -- Server version: 5.7.33
 -- PHP Version: 7.4.19
 
@@ -29,7 +29,6 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `tb_guru` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
   `nama` varchar(50) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
@@ -129,6 +128,8 @@ INSERT INTO `tb_pertanyaan` (`id_pertanyaan`, `pertanyaan`) VALUES
 
 CREATE TABLE `tb_siswa` (
   `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
   `nisn` varchar(20) NOT NULL,
   `password` varchar(255) NOT NULL,
   `nama` varchar(50) NOT NULL,
@@ -156,8 +157,29 @@ CREATE TABLE `tb_siswa` (
 -- Dumping data for table `tb_siswa`
 --
 
-INSERT INTO `tb_siswa` (`id`, `nisn`, `password`, `nama`, `kelas`, `tanggal_lahir`, `agama`, `alamat`, `asal_sekolah`, `status_asal_sekolah`, `nama_ayah`, `umur_ayah`, `agama_ayah`, `pendidikan_terakhir_ayah`, `pekerjaan_ayah`, `nama_ibu`, `umur_ibu`, `pendidikan_ibu`, `pekerjaan_ibu`, `tempat_lahir`, `created_at`, `update_at`) VALUES
-(1, '12345', '$2y$10$o.7Jez8x.Zr3P5USqF5HOu5OLmphATtP7Tz0bAJLkfl1qu1emDJiu', 'Budi Waluyo', 'V', '2022-02-04', 'Islam', 'Pekanbaru', 'MAN 1 Model Pekanbaru', 'Swasta', 'Johansyah', '40', 'Islam', 'S1', 'Pegawai Bank', 'Faridah', '35', 'S2', 'DOSEN', 'Pekanbaru', '2022-02-04 13:53:04', '2022-02-05 13:53:04');
+INSERT INTO `tb_siswa` (`id`, `user_id`, `username`, `nisn`, `password`, `nama`, `kelas`, `tanggal_lahir`, `agama`, `alamat`, `asal_sekolah`, `status_asal_sekolah`, `nama_ayah`, `umur_ayah`, `agama_ayah`, `pendidikan_terakhir_ayah`, `pekerjaan_ayah`, `nama_ibu`, `umur_ibu`, `pendidikan_ibu`, `pekerjaan_ibu`, `tempat_lahir`, `created_at`, `update_at`) VALUES
+(1, 1, '123456', '12345', '$2y$10$o.7Jez8x.Zr3P5USqF5HOu5OLmphATtP7Tz0bAJLkfl1qu1emDJiu', 'Budi Waluyo', 'V', '2022-02-04', 'Islam', 'Pekanbaru', 'MAN 1 Model Pekanbaru', 'Swasta', 'Johansyah', '40', 'Islam', 'S1', 'Pegawai Bank', 'Faridah', '35', 'S2', 'DOSEN', 'Pekanbaru', '2022-02-04 13:53:04', '2022-02-05 13:53:04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_user`
+--
+
+CREATE TABLE `tb_user` (
+  `id_user` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `level` enum('siswa','guru') NOT NULL,
+  `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tb_user`
+--
+
+INSERT INTO `tb_user` (`id_user`, `username`, `password`, `level`, `last_login`) VALUES
+(1, '123456', '$2y$10$V8IBAfhOh.Y2hEIlKoRnPOcB1d1oglKLWG55qo2./Ep4d8JeNXPEq', 'siswa', '2022-02-06 01:23:41');
 
 --
 -- Indexes for dumped tables
@@ -200,6 +222,12 @@ ALTER TABLE `tb_siswa`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tb_user`
+--
+ALTER TABLE `tb_user`
+  ADD PRIMARY KEY (`id_user`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -238,6 +266,12 @@ ALTER TABLE `tb_pertanyaan`
 --
 ALTER TABLE `tb_siswa`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tb_user`
+--
+ALTER TABLE `tb_user`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

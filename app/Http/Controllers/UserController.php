@@ -61,31 +61,28 @@ class UserController extends Controller
         $password = $request->input('password');
 
         $user = User::where('username', $username)->first();
-        $role = $user->role;
-        if ($role == "direktur"){
-            $dataUser = User::join('tb_direktur', 'tb_user.id', '=', 'tb_direktur.user_id')
+
+        $level = $user->level;
+
+        if ($level == "siswa"){
+            $dataUser = User::join('tb_siswa', 'tb_user.username', '=', 'tb_siswa.username')
                 ->where('tb_user.username', $username)
-                ->where('tb_user.role', 'direktur')
-                ->get(['tb_user.*', 'tb_direktur.*', 'tb_direktur.id as direktur_id']);
+                ->where('tb_user.level', 'siswa')
+                ->first(['tb_user.*', 'tb_siswa.nama']);
         }
-        elseif ($role == "konsumen") {
-            $dataUser = User::join('tb_konsumen', 'tb_user.id', '=', 'tb_konsumen.user_id')
-                ->where('tb_user.username', $username)
-                ->where('tb_user.role', 'konsumen')
-                ->get(['tb_user.*', 'tb_konsumen.*', 'tb_konsumen.id as konsumen_id']);
-        }
-        elseif($role == "pegawai") {
-            $dataUser = User::join('tb_pegawai', 'tb_user.id', '=', 'tb_pegawai.user_id')
-                ->where('tb_user.username', $username)
-                ->where('tb_user.role', 'pegawai')
-                ->get(['tb_user.*', 'tb_pegawai.*', 'tb_pegawai.id as pegawai_id']);
+        elseif ($level == "guru") {
+            $dataUser = User::join('tb_guru', 'tb_user.username', '=', 'tb_guru.username')
+            ->where('tb_user.username', $username)
+            ->where('tb_user.level', 'guru')
+            ->first(['tb_user.*', 'tb_guru.nama']);
+
         }
 
         if (!$user){
             return response()->json([
                 'code' => 200,
                 'status' => "Failed",
-                'message' => 'FAILED',
+                'message' => 'FAILED, User tidak ditemukan!',
                 'result' => ''
             ], 500);
         }
@@ -96,7 +93,7 @@ class UserController extends Controller
             return response()->json([
                 'code' => 200,
                 'status' => "Failed",
-                'message' => 'FAILED',
+                'message' => 'FAILED, Username atau password salah!',
                 'result' => ''
             ], 500);
         }
