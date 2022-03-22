@@ -62,49 +62,48 @@ class UserController extends Controller
 
         $user = User::where('username', $username)->first();
 
-        $level = $user->level;
-
-        if ($level == "siswa"){
-            $dataUser = User::join('tb_siswa', 'tb_user.username', '=', 'tb_siswa.username')
-                ->where('tb_user.username', $username)
-                ->where('tb_user.level', 'siswa')
-                ->first(['tb_user.*', 'tb_siswa.nama']);
-        }
-        elseif ($level == "guru") {
-            $dataUser = User::join('tb_guru', 'tb_user.username', '=', 'tb_guru.username')
-            ->where('tb_user.username', $username)
-            ->where('tb_user.level', 'guru')
-            ->first(['tb_user.*', 'tb_guru.nama']);
-
-        }
-
         if (!$user){
             return response()->json([
                 'code' => 200,
                 'status' => "Failed",
-                'message' => 'FAILED, User tidak ditemukan!',
+                'message' => 'Gagal, User tidak ditemukan!',
                 'result' => ''
-            ], 500);
-        }
+            ], 404);
+        } else {
+            $level = $user->level;
 
-        $isValidPassword = Hash::check($password, $user->password);
+            if ($level == "siswa"){
+                $dataUser = User::join('tb_siswa', 'tb_user.username', '=', 'tb_siswa.username')
+                    ->where('tb_user.username', $username)
+                    ->where('tb_user.level', 'siswa')
+                    ->first(['tb_user.*', 'tb_siswa.nama']);
+            }
+            elseif ($level == "guru") { 
+                $dataUser = User::join('tb_guru', 'tb_user.username', '=', 'tb_guru.username')
+                ->where('tb_user.username', $username)
+                ->where('tb_user.level', 'guru')
+                ->first(['tb_user.*', 'tb_guru.nama']);
 
-        if (!$isValidPassword){
+            }
+
+            $isValidPassword = Hash::check($password, $user->password);
+
+            if (!$isValidPassword){
+                return response()->json([
+                    'code' => 200,
+                    'status' => "Failed",
+                    'message' => 'Gagal, Username atau password salah!',
+                    'result' => ''
+                ], 400);
+            }
+
             return response()->json([
                 'code' => 200,
-                'status' => "Failed",
-                'message' => 'FAILED, Username atau password salah!',
-                'result' => ''
-            ], 500);
+                'status' => "Success",
+                'message' => 'Success',
+                'result' => $dataUser
+            ], 200);
         }
-
-        return response()->json([
-            'code' => 200,
-            'status' => "Success",
-            'message' => 'SUCCESS',
-            'result' => $dataUser
-        ], 200);
-
     }
 
     public function checkUsername($username){
