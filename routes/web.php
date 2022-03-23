@@ -34,3 +34,4 @@ $router->post('/hasil-jawaban-insert', 'HasilController@insertHasilJawaban');
 
 
 //endregion
+$router->put('/change-password/{id_user}', 'UserController@changePassword');
