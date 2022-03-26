@@ -10,7 +10,7 @@ class Hasil extends Model
     protected $table = "tb_hasil";
 
     protected $fillable = [
-       'id_hasil', 'siswa_id', 'hasil_akhir'
+       'id_hasil', 'siswa_id', 'hasil_akhir','created_at', 'updated_at'
     ];
 
 }

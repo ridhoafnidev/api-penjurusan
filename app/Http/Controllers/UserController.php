@@ -170,4 +170,55 @@ class UserController extends Controller
         }   
     }
 
+
+    public function getUserDetailById($id_user){
+        $user = User::where('id_user', $id_user)->first();
+        
+        if (!$user){
+            return response()->json([
+                'code' => 404,
+                'status' => "Failed",
+                'message' => 'Gagal, User
+                 tidak ditemukan!',
+                'result' => ''
+            ], 404);
+        } else {
+            $level = $user->level;
+
+            if ($level == "siswa"){
+                $dataUser = User::join('tb_siswa', 'tb_user.id_user', '=', 'tb_siswa.user_id')
+                    ->where('tb_user.id_user', $id_user)
+                    ->where('tb_user.level', 'siswa')
+                    ->first(['tb_user.*', 'tb_siswa.username', 'tb_siswa.nisn', 'tb_siswa.nama', 'tb_siswa.kelas',
+                      'tb_siswa.tanggal_lahir', 'tb_siswa.agama', 'tb_siswa.alamat', 'tb_siswa.foto', 'tb_siswa.asal_sekolah',
+                      'tb_siswa.status_asal_sekolah', 'tb_siswa.nama_ayah', 'tb_siswa.umur_ayah', 'tb_siswa.agama_ayah', 'tb_siswa.pendidikan_terakhir_ayah',
+                      'tb_siswa.pekerjaan_ayah', 'tb_siswa.nama_ibu', 'tb_siswa.umur_ibu', 'tb_siswa.pendidikan_ibu',
+                      'tb_siswa.tempat_lahir', 'tb_siswa.created_at','tb_siswa.updated_at']);
+            } elseif ($level == "guru") { 
+                $dataUser = User::join('tb_guru', 'tb_user.id_user', '=', 'tb_guru.user_id')
+                    ->where('tb_user.id_user', $id_user)
+                    ->where('tb_user.level', 'guru')
+                    ->first(['tb_user.*', 'tb_guru.nama', 'tb_guru.username',
+                     'tb_guru.alamat', 'tb_guru.nip','tb_guru.foto', 'tb_guru.email', 'tb_guru.created_at', 'tb_guru.updated_at']);
+            }
+
+            if (!$dataUser){
+                return response()->json([
+                    'code' => 404,
+                    'status' => "Failed",
+                    'message' => 'Gagal, User
+                     tidak ditemukan!',
+                    'result' => ''
+                ], 404);
+            } else {
+                return response()->json([
+                    'code' => 200,
+                    'status' => "Success",
+                    'message' => 'Success',
+                    'result' => $dataUser
+                ], 200);
+            }
+        }
+    }
+
 }
