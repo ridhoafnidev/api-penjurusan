@@ -9,6 +9,6 @@ class Jawaban extends Model
     protected $table = 'tb_jawaban';
 
     protected $fillable = [
-        'id_jawaban', 'pertanyaan_id', 'jawaban'
+        'id_jawaban', 'pertanyaan_id', 'jawaban','created_at', 'updated_at'
     ];
 }

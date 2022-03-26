@@ -10,7 +10,7 @@ class Guru extends Model
     protected $table = 'tb_guru';
 
     protected $fillable = [
-        'id', 'user_id', 'nama', 'username', 'password', 'alamat', 'email', 'created_at', 'updated_at'
+        'user_id', 'nama', 'username', 'nip', 'alamat', 'email', 'foto','created_at', 'updated_at'
     ];
 
 }

@@ -34,4 +34,9 @@ $router->post('/hasil-jawaban-insert', 'HasilController@insertHasilJawaban');
 
 
 //endregion
+
+//region user
 $router->put('/change-password/{id_user}', 'UserController@changePassword');
+
+$router->get('/user-detail/{id_user}', 'UserController@getUserDetailById');
+//endregion
