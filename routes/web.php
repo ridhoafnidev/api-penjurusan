@@ -40,3 +40,19 @@ $router->put('/change-password/{id_user}', 'UserController@changePassword');
 
 $router->get('/user-detail/{id_user}', 'UserController@getUserDetailById');
 //endregion
+
+//region Register
+
+$router->post('/register', 'UserController@register');
+
+//endregion
+
+//region Update Foto
+
+$router->post('/update-foto/{id_user}', 'UserController@uploadFoto');
+
+//endregion
+
+$router->put('/update-guru/{id_user}', 'GuruController@updateGuru');
+
+$router->put('/update-siswa/{id_user}', 'SiswaController@updateSiswa');
