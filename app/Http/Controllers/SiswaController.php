@@ -34,7 +34,7 @@ class SiswaController extends Controller
 
     public function getSiswaAllByUserId($id) {
         try {
-            $siswa = Siswa::where('user_id', $user_id)->get();
+            $siswa = Siswa::where('user_id', $id)->get();
 
             return response()->json([
                 'code' => 200,

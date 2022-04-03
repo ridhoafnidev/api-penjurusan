@@ -13,28 +13,31 @@ class HasilController extends Controller
     public function insertHasilJawaban(){
 
         $rawData = json_decode(file_get_contents("php://input"), true);
-        $idSiswa = $rawData['id_siswa'];
-        $jawaban = $rawData['jawaban'];
+        $idSiswa = $rawData['siswa_id'];
+        $hasilAkhir = $rawData['hasil_akhir'];
+        $jawaban = $rawData['jawaban_id'];
 
         try {
             $hasil = new Hasil();
             $hasil->siswa_id = $idSiswa;
-            $hasil->hasil_akhir = "IPA";
-            $hasil->save();
+            $hasil->hasil_akhir = $hasilAkhir;
+            if($hasil->save()){
 
-            for ($size = 0; $size < sizeof($jawaban); $size++) {
-                DB::table('tb_hasil_detail')->insert([
-                    'hasil_id' => $hasil['id_hasil'],
-                    'jawaban_id' => $jawaban[$size]['jawaban_id']
-                ]);
+                for ($size = 0; $size < sizeof($jawaban); $size++) {
+                    DB::table('tb_hasil_detail')->insert([
+                        'hasil_id' => $hasil['id'],
+                        'jawaban_id' => $jawaban[$size]['jawaban_id']
+                    ]);
+                }
+
+                return response()->json([
+                    'code' => 200,
+                    'status' => 'Success',
+                    'message' => 'SUCCESS',
+                    'result' => ""
+                ], 200);
+
             }
-
-            return response()->json([
-                'code' => 200,
-                'status' => 'Success',
-                'message' => 'SUCCESS',
-                'result' => ""
-            ], 200);
 
         }
         catch (\Exception $exception) {
@@ -79,6 +82,27 @@ class HasilController extends Controller
                 'result' => $exception->getMessage()
             ], 500);
 
+        }
+
+    }
+
+    public function getHasilDetailSiswa($siswa_id) {
+        try {
+            $data = Hasil::where('siswa_id', $siswa_id)->get();
+
+            return response()->json([
+                'code' => 200,
+                'status' => "Success",
+                'message' => "SUCCESS",
+                'result' => $data
+            ], 200);
+        }catch (\Exception $exception) {
+            return response()->json([
+                'code' => 500,
+                'status' => "Success",
+                'message' => "SUCCESS",
+                'result' => $exception->getMessage()
+            ], 500);
         }
 
     }

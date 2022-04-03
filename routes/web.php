@@ -31,6 +31,7 @@ $router->get('/pertanyaan-all', 'PertanyaanController@getPertanyaanAll');
 
 $router->get('/hasil-all', 'HasilController@getHasilAll');
 $router->post('/hasil-jawaban-insert', 'HasilController@insertHasilJawaban');
+$router->get('/hasil-by-siswa-id/{siswa_id}', 'HasilController@getHasilDetailSiswa');
 
 
 //endregion
