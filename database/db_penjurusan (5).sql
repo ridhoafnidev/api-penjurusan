@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 02, 2022 at 04:52 PM
+-- Generation Time: Apr 03, 2022 at 04:26 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.28
 
@@ -124,6 +124,30 @@ INSERT INTO `tb_jawaban` (`id_jawaban`, `pertanyaan_id`, `jawaban`, `skor`, `cre
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tb_nilai_siswa`
+--
+
+CREATE TABLE `tb_nilai_siswa` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `rata_raport_ipa` double NOT NULL,
+  `rata_raport_ips` double NOT NULL,
+  `rata_akhir` double NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_nilai_siswa`
+--
+
+INSERT INTO `tb_nilai_siswa` (`id`, `user_id`, `rata_raport_ipa`, `rata_raport_ips`, `rata_akhir`, `created_at`, `updated_at`) VALUES
+(14, 13, 45, 67, 56, '2022-04-03 12:56:49', '2022-04-03 12:56:49'),
+(15, 2, 45, 67, 56, '2022-04-03 14:06:15', '2022-04-03 14:06:15');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tb_pertanyaan`
 --
 
@@ -181,7 +205,7 @@ CREATE TABLE `tb_siswa` (
 --
 
 INSERT INTO `tb_siswa` (`id`, `user_id`, `username`, `nisn`, `nama`, `kelas`, `tanggal_lahir`, `agama`, `alamat`, `foto`, `asal_sekolah`, `status_asal_sekolah`, `nama_ayah`, `umur_ayah`, `agama_ayah`, `pendidikan_terakhir_ayah`, `pekerjaan_ayah`, `nama_ibu`, `umur_ibu`, `agama_ibu`, `pendidikan_terakhir_ibu`, `pekerjaan_ibu`, `tempat_lahir`, `created_at`, `updated_at`) VALUES
-(1, 1, 'admin', '111111111111', 'Murid Hei', 'II IPS', '2022-02-04', 'Islam', 'rengat fgfg', '12345_images.jpeg', 'SMAN 1', 'Negeri', 'Dudung', '49', 'Islam', 'D3/S1', 'Guru', 'Walia', '45', 'Islam', 'D3/S1', 'Guru', 'Rengat', '2022-03-30 17:08:14', '2022-03-30 17:08:14'),
+(1, 1, 'admin', '111111111111', 'Murid Hei', 'II IPS', '2022-02-04', 'Islam', 'rengat', '12345_images.jpeg', 'SMAN 1', 'Negeri', 'Dudung', '49', 'Islam', 'D3/S1', 'Guru', 'Walia', '45', 'Islam', 'D3/S1', 'Guru', 'Rengat', '2022-04-03 12:32:06', '2022-04-03 12:32:06'),
 (2, 13, 'ridho', '123224343', 'Ridho Afni', 'II IPS', '2022-02-04', 'Islam', 'Jalan negara', '', 'SMAN 1', 'Negeri', 'Ayah', '12', 'Islam', 'D3/S1', 'Karyawan', 'Rohina', '40', 'Islam', 'D3/S1', 'Karyawan', 'riau', '2022-03-30 13:47:33', '2022-03-26 15:08:52'),
 (3, 15, 'ridhos', '123224343', 'Ridho Afni', 'II IPS', '2022-02-04', 'Islam', 'Jalan negara', '', 'SMAN 1', 'Negeri', 'Ayah', '12', 'Islam', 'D3/S1', 'Karyawan', 'Rohina', '40', 'Islam', 'D3/S1', 'Karyawan', 'riau', '2022-03-30 13:47:35', '2022-03-27 16:03:50'),
 (4, 19, 'huhu', '4545', 'hjhjhj', 'II IPA', '2022-04-02', 'Buddha', 'hghgh', '', 'hjhj', 'hhhh', 'yy', '', 'Kristen Protestan', 'S2', 'ihih', 'jhh', '87', 'Kristen Protestan', 'S2', 'hhh', 'gghghg', '2022-04-02 08:14:21', '2022-04-02 08:14:21');
@@ -208,7 +232,7 @@ CREATE TABLE `tb_user` (
 
 INSERT INTO `tb_user` (`id_user`, `username`, `password`, `level`, `last_login`, `created_at`, `updated_at`) VALUES
 (1, 'admin', '$2y$10$vctn6Ifhyzl1/SKdEJ7Nc.kiKOkDcGyhbKuimjoVLUq1tiTc7e3xe', 'siswa', '2022-02-06 01:23:41', '2022-03-23 04:41:15', '2022-04-01 02:57:06'),
-(2, 'guru', '$2y$10$.vsjRAqlaRqW9QdttshOnOiW4MA9DqWA9tvAwlR/JghEzQbaRdM6y', 'guru', '2022-03-26 02:47:09', '2022-03-26 02:47:09', '2022-03-31 16:20:17'),
+(2, 'guru', '$2y$10$vctn6Ifhyzl1/SKdEJ7Nc.kiKOkDcGyhbKuimjoVLUq1tiTc7e3xe', 'guru', '2022-03-26 02:47:09', '2022-03-26 02:47:09', '2022-03-31 16:20:17'),
 (9, 'rila c', '$2y$10$Rmc/gAUL8QxiLrpRzlWA1eJSnr88Bh1qOk/ia3Aw/BnwbWH1WkZC6', 'guru', '2022-03-26 14:58:19', '2022-03-26 14:58:19', '2022-03-26 14:58:19'),
 (13, 'ridho', '$2y$10$dOtf4m.0iqWTWNIsTTbZsOxVYXc5q4my1iMjY0Ef4f//.r8Q1AY5y', 'siswa', '2022-03-26 15:08:52', '2022-03-26 15:08:52', '2022-03-26 15:08:52'),
 (14, 'rilab', '$2y$10$zvPmtt5tsvATMsn4.3LCuerpsWoXf55i3ESUhDaS8yE0SJ5Gr12nW', 'guru', '2022-03-27 15:38:15', '2022-03-27 15:38:15', '2022-03-27 15:38:15'),
@@ -245,6 +269,12 @@ ALTER TABLE `tb_hasil_detail`
 --
 ALTER TABLE `tb_jawaban`
   ADD PRIMARY KEY (`id_jawaban`);
+
+--
+-- Indexes for table `tb_nilai_siswa`
+--
+ALTER TABLE `tb_nilai_siswa`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tb_pertanyaan`
@@ -291,6 +321,12 @@ ALTER TABLE `tb_hasil_detail`
 --
 ALTER TABLE `tb_jawaban`
   MODIFY `id_jawaban` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `tb_nilai_siswa`
+--
+ALTER TABLE `tb_nilai_siswa`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tb_pertanyaan`

@@ -24,6 +24,7 @@ class UserController extends Controller
                 'message' => 'Username sudah ada!',
                 'result' => ''
             ], 400);
+            
         }
         else {
             $user = User::create([
