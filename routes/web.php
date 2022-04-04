@@ -57,3 +57,13 @@ $router->post('/update-foto/{id_user}', 'UserController@uploadFoto');
 $router->put('/update-guru/{id_user}', 'GuruController@updateGuru');
 
 $router->put('/update-siswa/{id_user}', 'SiswaController@updateSiswa');
+
+$router->get('/nilai-siswa', 'NilaiSiswaController@getNilaiSiswaAll');
+
+$router->get('/nilai-siswa-by-id/{id_user}', 'NilaiSiswaController@getNilaiSiswaById');
+
+$router->post('/nilai-siswa', 'NilaiSiswaController@insertNilaiSiswa');
+
+$router->put('/nilai-siswa/{id_user}', 'NilaiSiswaController@updateNilaiSiswa');
+
+$router->delete('/nilai-siswa/{id_user}', 'NilaiSiswaController@deleteNilaiSiswa');
