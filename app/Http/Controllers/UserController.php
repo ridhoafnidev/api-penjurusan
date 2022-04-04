@@ -16,7 +16,7 @@ class UserController extends Controller
         $level = $request->input('level');
         $password = $request->input('password');
         $username = $request->input('username');
-        
+
         if ($this->checkUsername($username) == 1) {
             return response()->json([
                 'code' => 400,
@@ -88,7 +88,7 @@ class UserController extends Controller
                         'result' => $siswa
                     ], 200);
 
-                } elseif ($level == "guru") { 
+                } elseif ($level == "guru") {
                     $nama = $request->input('nama');
                     $nip = $request->input('nip');
                     $alamat = $request->input('alamat');
@@ -149,13 +149,13 @@ class UserController extends Controller
                 $dataUser = User::join('tb_siswa', 'tb_user.username', '=', 'tb_siswa.username')
                     ->where('tb_user.username', $username)
                     ->where('tb_user.level', 'siswa')
-                    ->first(['tb_user.*', 'tb_siswa.nama']);
+                    ->first(['tb_user.*', 'tb_siswa.nama', 'tb_siswa.id as id_siswa']);
             }
-            elseif ($level == "guru") { 
+            elseif ($level == "guru") {
                 $dataUser = User::join('tb_guru', 'tb_user.username', '=', 'tb_guru.username')
                 ->where('tb_user.username', $username)
                 ->where('tb_user.level', 'guru')
-                ->first(['tb_user.*', 'tb_guru.nama']);
+                ->first(['tb_user.*', 'tb_guru.nama', 'tb_guru.id as id_guru']);
             }
 
             $isValidPassword = Hash::check($password, $user->password);
@@ -198,10 +198,10 @@ class UserController extends Controller
         $newPassword = $request->input('newPassword');
 
         $user = User::where('id_user', $id_user)->first();
-        
+
         $isValidOldPassword = Hash::check($oldPassword, $user->password);
 
-        if(!$isValidOldPassword){ 
+        if(!$isValidOldPassword){
             return response()->json([
                 'code' => 400,
                 'status' => "Failed",
@@ -239,13 +239,13 @@ class UserController extends Controller
                     'result' => ''
                 ], 400);
             }
-        }   
+        }
     }
 
 
     public function getUserDetailById($id_user){
         $user = User::where('id_user', $id_user)->first();
-        
+
         if (!$user){
             return response()->json([
                 'code' => 404,
@@ -266,7 +266,7 @@ class UserController extends Controller
                       'tb_siswa.status_asal_sekolah', 'tb_siswa.nama_ayah', 'tb_siswa.umur_ayah', 'tb_siswa.agama_ayah', 'tb_siswa.pendidikan_terakhir_ayah',
                       'tb_siswa.pekerjaan_ayah', 'tb_siswa.nama_ibu', 'tb_siswa.umur_ibu', 'tb_siswa.agama_ibu', 'tb_siswa.pendidikan_terakhir_ibu','tb_siswa.pekerjaan_ibu',
                       'tb_siswa.tempat_lahir', 'tb_siswa.created_at','tb_siswa.updated_at']);
-            } elseif ($level == "guru") { 
+            } elseif ($level == "guru") {
                 $dataUser = User::join('tb_guru', 'tb_user.id_user', '=', 'tb_guru.user_id')
                     ->where('tb_user.id_user', $id_user)
                     ->where('tb_user.level', 'guru')
@@ -313,7 +313,7 @@ class UserController extends Controller
                     ->where('tb_user.level', 'siswa')
                     ->first(['tb_user.*', 'tb_siswa.*']);
 
-                
+
                     if($request->hasFile('foto')){
                         $foto = $request->file('foto');
                     } else {
@@ -395,7 +395,7 @@ class UserController extends Controller
                     ->where('tb_user.level', 'guru')
                     ->first(['tb_user.*', 'tb_guru.nama', 'tb_guru.username',
                      'tb_guru.alamat', 'tb_guru.nip','tb_guru.foto', 'tb_guru.email', 'tb_guru.created_at', 'tb_guru.updated_at']);
-            
+
 
                     return response()->json([
                         'code' => 200,

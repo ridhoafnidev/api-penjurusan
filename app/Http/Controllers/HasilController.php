@@ -6,6 +6,7 @@ use App\Models\Hasil;
 use App\Models\HasilDetail;
 use App\Models\Siswa;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 class HasilController extends Controller
 {
@@ -86,9 +87,16 @@ class HasilController extends Controller
 
     }
 
-    public function getHasilDetailSiswa($siswa_id) {
+    public function getHasilDetailSiswa($siswa_id, $is_teacher) {
         try {
-            $data = Hasil::where('siswa_id', $siswa_id)->get();
+            if ($is_teacher == 1)  {
+                $data = Hasil::join('tb_siswa', 'tb_siswa.id', '=', 'tb_hasil.siswa_id')->get(['tb_siswa.nama', 'tb_hasil.*']);
+            }
+            else{
+                $data = Hasil::join('tb_siswa', 'tb_siswa.id', '=', 'tb_hasil.siswa_id')
+                    ->where('tb_hasil.siswa_id', $siswa_id)->get(['tb_siswa.nama', 'tb_hasil.*']);
+
+            }
 
             return response()->json([
                 'code' => 200,
