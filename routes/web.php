@@ -11,48 +11,48 @@ $router->get('/', function () use ($router) {
 $router->post('/login', 'UserController@login');
 
 //endregion
-//region Siswa
-
-$router->get('/siswa-all', 'SiswaController@getSiswaAll');
-$router->get('/siswa-by-user-id/{id}', 'SiswaController@getSiswaAll');
-
-//endregion
-//region Guru
-
-$router->get('/guru-all', 'GuruController@getGuruAll');
-
-//endregion
-//region Pertanyaan
-
-$router->get('/pertanyaan-all', 'PertanyaanController@getPertanyaanAll');
-
-//endregion
-//region Hasil
-
-$router->get('/hasil-all', 'HasilController@getHasilAll');
-$router->post('/hasil-jawaban-insert', 'HasilController@insertHasilJawaban');
+//region register
 
 
 //endregion
+//region MasterJabatanFungsional
 
-//region user
-$router->put('/change-password/{id_user}', 'UserController@changePassword');
-
-$router->get('/user-detail/{id_user}', 'UserController@getUserDetailById');
-//endregion
-
-//region Register
-
-$router->post('/register', 'UserController@register');
+$router->get('/get-master-jabatan-fungsional-all', 'MasterJabatanFungsionalController@getAll');
+$router->get('/get-master-jabatan-fungsional-by', 'MasterJabatanFungsionalController@getBy');
 
 //endregion
+//region MasterJabatanStruktural
 
-//region Update Foto
-
-$router->post('/update-foto/{id_user}', 'UserController@uploadFoto');
+$router->get('/get-master-jabatan-struktural-all', 'MasterJabatanStrukturalController@getAll');
+$router->get('/get-master-jabatan-struktural-by', 'MasterJabatanStrukturalController@getBy');
 
 //endregion
+//region MasterJenisTenaga
 
-$router->put('/update-guru/{id_user}', 'GuruController@updateGuru');
+$router->get('/get-master-jenis-tenaga-all', 'MasterJenisTenagaController@getAll');
+$router->get('/get-master-jenis-tenaga-by', 'MasterJenisTenagaController@getBy');
 
-$router->put('/update-siswa/{id_user}', 'SiswaController@updateSiswa');
+//endregion
+//region MasterPangkatGolongan
+
+$router->get('/get-master-pangkat-golongan-all', 'MasterPangkatGolonganController@getAll');
+$router->get('/get-master-pangkat-golongan-by', 'MasterPangkatGolonganController@getBy');
+
+
+//endregion
+//region MasterPnsNonPns
+
+//endregion
+//region MasterStatusAbsensi
+
+//endregion
+//region MasterUnitKerja
+
+
+//endregion
+//region Pegawai
+
+//endregion
+//region Absensi
+
+//endregion
