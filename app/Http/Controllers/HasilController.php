@@ -90,11 +90,11 @@ class HasilController extends Controller
     public function getHasilDetailSiswa($siswa_id, $is_teacher) {
         try {
             if ($is_teacher == 1)  {
-                $data = Hasil::join('tb_siswa', 'tb_siswa.id', '=', 'tb_hasil.siswa_id')->get(['tb_siswa.nama', 'tb_hasil.*']);
+                $data = Hasil::join('tb_siswa', 'tb_siswa.user_id', '=', 'tb_hasil.siswa_id')->get(['tb_siswa.nama', 'tb_siswa.user_id', 'tb_hasil.*']);
             }
             else{
-                $data = Hasil::join('tb_siswa', 'tb_siswa.id', '=', 'tb_hasil.siswa_id')
-                    ->where('tb_hasil.siswa_id', $siswa_id)->get(['tb_siswa.nama', 'tb_hasil.*']);
+                $data = Hasil::join('tb_siswa', 'tb_siswa.user_id', '=', 'tb_hasil.siswa_id')
+                    ->where('tb_hasil.siswa_id', $siswa_id)->get(['tb_siswa.nama', 'tb_siswa.user_id', 'tb_hasil.*']);
 
             }
 
