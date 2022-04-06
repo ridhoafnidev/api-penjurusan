@@ -17,14 +17,13 @@ class UserController extends Controller
         $password = $request->input('password');
         $username = $request->input('username');
 
-        if ($this->checkUsername($username) == 1) {
+        if ($this->checkNip($username) == 1) {
             return response()->json([
                 'code' => 400,
                 'status' => "Failed",
                 'message' => 'Username sudah ada!',
                 'result' => ''
             ], 400);
-            
         }
         else {
             $user = User::create([
@@ -126,38 +125,37 @@ class UserController extends Controller
 
     public function login(Request $request){
         $this->validate($request, [
-            'username' => 'required',
+            'nip' => 'required',
             'password' => 'required|min:6'
         ]);
 
-        $username = $request->input('username');
+        $nip = $request->input('nip');
         $password = $request->input('password');
 
-        $user = User::where('username', $username)->first();
+        $user = User::where('nip', $nip)->first();
 
         if (!$user){
             return response()->json([
                 'code' => 404,
                 'status' => "Failed",
-                'message' => 'Gagal, User
-                 tidak ditemukan!',
+                'message' => 'Gagal, User tidak ditemukan!',
                 'result' => ''
             ], 404);
         } else {
-            $level = $user->level;
+            $level = $user->level_id;
 
-            if ($level == "siswa"){
-                $dataUser = User::join('tb_siswa', 'tb_user.username', '=', 'tb_siswa.username')
-                    ->where('tb_user.username', $username)
-                    ->where('tb_user.level', 'siswa')
-                    ->first(['tb_user.*', 'tb_siswa.nama', 'tb_siswa.id as id_siswa']);
+            if ($level == "1"){
+                $dataUser = User::join('tb_pegawai', 'tb_user.nik', '=', 'tb_pegawai.nik')
+                    ->where('tb_user.nip', $nip)
+                    ->where('tb_user.level_id', 1)
+                    ->first(['tb_user.*', 'tb_pegawai.email', 'tb_pegawai.no_hp']);
             }
-            elseif ($level == "guru") {
-                $dataUser = User::join('tb_guru', 'tb_user.username', '=', 'tb_guru.username')
-                ->where('tb_user.username', $username)
-                ->where('tb_user.level', 'guru')
-                ->first(['tb_user.*', 'tb_guru.nama', 'tb_guru.id as id_guru']);
-            }
+//            elseif ($level == "2") {
+//                $dataUser = User::join('tb_]]]]]]]]', 'tb_user.username', '=', 'tb_guru.username')
+//                ->where('tb_user.username', $nik)
+//                ->where('tb_user.level', 'guru')
+//                ->first(['tb_user.*', 'tb_guru.nama']);
+//            }
 
             $isValidPassword = Hash::check($password, $user->password);
 
@@ -165,7 +163,7 @@ class UserController extends Controller
                 return response()->json([
                     'code' => 400,
                     'status' => "Failed",
-                    'message' => 'Gagal, Username atau password salah!',
+                    'message' => 'Gagal, Username atau Password salah!',
                     'result' => ''
                 ], 400);
             }
@@ -179,9 +177,9 @@ class UserController extends Controller
         }
     }
 
-    public function checkUsername($username){
-        $checkUsername = User::where('username', $username)->count();
-        if ($checkUsername > 0){
+    public function checkNip($nip){
+        $checkNip = User::where('nip', $nip)->count();
+        if ($checkNip > 0){
             return 1;
         }
         else {
