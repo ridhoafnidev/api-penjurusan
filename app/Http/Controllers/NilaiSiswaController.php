@@ -45,13 +45,13 @@ class NilaiSiswaController extends Controller
                     'result' => ''
                 ], 400);
             }
-    
+
             $hasil = NilaiSiswa::where('user_id', $id_user)->first(
                 ['tb_nilai_siswa.id', 'tb_nilai_siswa.user_id',
-                         'tb_nilai_siswa.rata_raport_ipa', 'tb_nilai_siswa.rata_raport_ips'
-                         ,'tb_nilai_siswa.rata_akhir']
+                    'tb_nilai_siswa.rata_raport_ipa', 'tb_nilai_siswa.rata_raport_ips'
+                    ,'tb_nilai_siswa.rata_akhir']
             );
-    
+
             return response()->json([
                 'code' => 200,
                 'status' => "Success",
@@ -60,7 +60,7 @@ class NilaiSiswaController extends Controller
             ], 200);
         }
 
-        
+
 
     }
 
@@ -86,7 +86,7 @@ class NilaiSiswaController extends Controller
                 'rata_raport_ips' => $rata_raport_ips,
                 'rata_akhir' => $rata_akhir,
             ]);
-    
+
             if (!$nilai_siswa){
                 return response()->json([
                     'code' => 400,
@@ -95,13 +95,13 @@ class NilaiSiswaController extends Controller
                     'result' => ''
                 ], 400);
             }
-    
+
             $hasil = NilaiSiswa::where('user_id', $id_user)->first(
                 ['tb_nilai_siswa.id', 'tb_nilai_siswa.user_id',
-                         'tb_nilai_siswa.rata_raport_ipa', 'tb_nilai_siswa.rata_raport_ips'
-                         ,'tb_nilai_siswa.rata_akhir']
+                    'tb_nilai_siswa.rata_raport_ipa', 'tb_nilai_siswa.rata_raport_ips'
+                    ,'tb_nilai_siswa.rata_akhir']
             );
-    
+
             return response()->json([
                 'code' => 200,
                 'status' => "Success",
@@ -114,8 +114,8 @@ class NilaiSiswaController extends Controller
     public function getNilaiSiswaById($id_user) {
         $nilai_siswa = NilaiSiswa::where('user_id', $id_user)->first(
             ['tb_nilai_siswa.id', 'tb_nilai_siswa.user_id',
-                     'tb_nilai_siswa.rata_raport_ipa', 'tb_nilai_siswa.rata_raport_ips'
-                     ,'tb_nilai_siswa.rata_akhir']
+                'tb_nilai_siswa.rata_raport_ipa', 'tb_nilai_siswa.rata_raport_ips'
+                ,'tb_nilai_siswa.rata_akhir']
         );
 
         if (!$nilai_siswa){
@@ -173,7 +173,7 @@ class NilaiSiswaController extends Controller
     public function deleteNilaiSiswa($id_user)
     {
         $nilai_siswa = NilaiSiswa::whereUserId($id_user)->first();
-            
+
         $nilai_siswa->delete();
 
         if ($nilai_siswa) {
