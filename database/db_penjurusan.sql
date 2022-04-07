@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 03, 2022 at 04:26 PM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.28
+-- Host: localhost:3306
+-- Generation Time: Apr 07, 2022 at 12:45 AM
+-- Server version: 5.7.33
+-- PHP Version: 7.4.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -36,7 +36,7 @@ CREATE TABLE `tb_guru` (
   `alamat` text NOT NULL,
   `foto` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -62,7 +62,7 @@ CREATE TABLE `tb_hasil` (
   `id_hasil` int(11) NOT NULL,
   `siswa_id` int(11) NOT NULL,
   `hasil_akhir` varchar(3) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -71,7 +71,8 @@ CREATE TABLE `tb_hasil` (
 --
 
 INSERT INTO `tb_hasil` (`id_hasil`, `siswa_id`, `hasil_akhir`, `created_at`, `updated_at`) VALUES
-(1, 1, 'IPA', '2022-03-26 02:05:29', NULL);
+(1, 1, 'IPA', '2022-03-26 02:05:29', NULL),
+(2, 13, 'IPS', '2022-03-26 02:05:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -83,7 +84,7 @@ CREATE TABLE `tb_hasil_detail` (
   `id_hasil_detail` int(11) NOT NULL,
   `hasil_id` int(11) NOT NULL,
   `jawaban_id` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -107,7 +108,7 @@ CREATE TABLE `tb_jawaban` (
   `pertanyaan_id` int(11) NOT NULL,
   `jawaban` varchar(100) NOT NULL,
   `skor` varchar(3) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -133,7 +134,7 @@ CREATE TABLE `tb_nilai_siswa` (
   `rata_raport_ipa` double NOT NULL,
   `rata_raport_ips` double NOT NULL,
   `rata_akhir` double NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -143,7 +144,7 @@ CREATE TABLE `tb_nilai_siswa` (
 
 INSERT INTO `tb_nilai_siswa` (`id`, `user_id`, `rata_raport_ipa`, `rata_raport_ips`, `rata_akhir`, `created_at`, `updated_at`) VALUES
 (14, 13, 45, 67, 56, '2022-04-03 12:56:49', '2022-04-03 12:56:49'),
-(15, 2, 45, 67, 56, '2022-04-03 14:06:15', '2022-04-03 14:06:15');
+(15, 1, 45, 67, 56, '2022-04-03 14:06:15', '2022-04-03 14:06:15');
 
 -- --------------------------------------------------------
 
@@ -154,7 +155,7 @@ INSERT INTO `tb_nilai_siswa` (`id`, `user_id`, `rata_raport_ipa`, `rata_raport_i
 CREATE TABLE `tb_pertanyaan` (
   `id_pertanyaan` int(11) NOT NULL,
   `pertanyaan` varchar(100) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -196,7 +197,7 @@ CREATE TABLE `tb_siswa` (
   `pendidikan_terakhir_ibu` varchar(50) NOT NULL,
   `pekerjaan_ibu` varchar(50) NOT NULL,
   `tempat_lahir` varchar(50) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -221,8 +222,8 @@ CREATE TABLE `tb_user` (
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `level` enum('siswa','guru') NOT NULL,
-  `last_login` timestamp NOT NULL DEFAULT current_timestamp(),
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -232,7 +233,7 @@ CREATE TABLE `tb_user` (
 
 INSERT INTO `tb_user` (`id_user`, `username`, `password`, `level`, `last_login`, `created_at`, `updated_at`) VALUES
 (1, 'admin', '$2y$10$vctn6Ifhyzl1/SKdEJ7Nc.kiKOkDcGyhbKuimjoVLUq1tiTc7e3xe', 'siswa', '2022-02-06 01:23:41', '2022-03-23 04:41:15', '2022-04-01 02:57:06'),
-(2, 'guru', '$2y$10$vctn6Ifhyzl1/SKdEJ7Nc.kiKOkDcGyhbKuimjoVLUq1tiTc7e3xe', 'guru', '2022-03-26 02:47:09', '2022-03-26 02:47:09', '2022-03-31 16:20:17'),
+(2, 'guru', '$2y$10$2J8487haXMNup5mpAlbSUeUVJzcqYZuGqimoQVvWZ8s22oa.tRpQG', 'guru', '2022-03-26 02:47:09', '2022-03-26 02:47:09', '2022-03-31 16:20:17'),
 (9, 'rila c', '$2y$10$Rmc/gAUL8QxiLrpRzlWA1eJSnr88Bh1qOk/ia3Aw/BnwbWH1WkZC6', 'guru', '2022-03-26 14:58:19', '2022-03-26 14:58:19', '2022-03-26 14:58:19'),
 (13, 'ridho', '$2y$10$dOtf4m.0iqWTWNIsTTbZsOxVYXc5q4my1iMjY0Ef4f//.r8Q1AY5y', 'siswa', '2022-03-26 15:08:52', '2022-03-26 15:08:52', '2022-03-26 15:08:52'),
 (14, 'rilab', '$2y$10$zvPmtt5tsvATMsn4.3LCuerpsWoXf55i3ESUhDaS8yE0SJ5Gr12nW', 'guru', '2022-03-27 15:38:15', '2022-03-27 15:38:15', '2022-03-27 15:38:15'),
@@ -308,7 +309,7 @@ ALTER TABLE `tb_guru`
 -- AUTO_INCREMENT for table `tb_hasil`
 --
 ALTER TABLE `tb_hasil`
-  MODIFY `id_hasil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_hasil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_hasil_detail`
