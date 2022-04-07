@@ -17,7 +17,7 @@ class UserController extends Controller
         $password = $request->input('password');
         $username = $request->input('username');
 
-        if ($this->checkNip($username) == 1) {
+        if ($this->checkUsername($username) == 1) {
             return response()->json([
                 'code' => 400,
                 'status' => "Failed",
@@ -125,37 +125,38 @@ class UserController extends Controller
 
     public function login(Request $request){
         $this->validate($request, [
-            'nip' => 'required',
+            'username' => 'required',
             'password' => 'required|min:6'
         ]);
 
-        $nip = $request->input('nip');
+        $username = $request->input('username');
         $password = $request->input('password');
 
-        $user = User::where('nip', $nip)->first();
+        $user = User::where('username', $username)->first();
 
         if (!$user){
             return response()->json([
                 'code' => 404,
                 'status' => "Failed",
-                'message' => 'Gagal, User tidak ditemukan!',
+                'message' => 'Gagal, User
+                 tidak ditemukan!',
                 'result' => ''
             ], 404);
         } else {
-            $level = $user->level_id;
+            $level = $user->level;
 
-            if ($level == "1"){
-                $dataUser = User::join('tb_pegawai', 'tb_user.nik', '=', 'tb_pegawai.nik')
-                    ->where('tb_user.nip', $nip)
-                    ->where('tb_user.level_id', 1)
-                    ->first(['tb_user.*', 'tb_pegawai.email', 'tb_pegawai.no_hp']);
+            if ($level == "siswa"){
+                $dataUser = User::join('tb_siswa', 'tb_user.username', '=', 'tb_siswa.username')
+                    ->where('tb_user.username', $username)
+                    ->where('tb_user.level', 'siswa')
+                    ->first(['tb_user.*', 'tb_siswa.nama', 'tb_siswa.id as id_siswa']);
             }
-//            elseif ($level == "2") {
-//                $dataUser = User::join('tb_]]]]]]]]', 'tb_user.username', '=', 'tb_guru.username')
-//                ->where('tb_user.username', $nik)
-//                ->where('tb_user.level', 'guru')
-//                ->first(['tb_user.*', 'tb_guru.nama']);
-//            }
+            elseif ($level == "guru") {
+                $dataUser = User::join('tb_guru', 'tb_user.username', '=', 'tb_guru.username')
+                ->where('tb_user.username', $username)
+                ->where('tb_user.level', 'guru')
+                ->first(['tb_user.*', 'tb_guru.nama', 'tb_guru.id as id_guru']);
+            }
 
             $isValidPassword = Hash::check($password, $user->password);
 
@@ -163,7 +164,7 @@ class UserController extends Controller
                 return response()->json([
                     'code' => 400,
                     'status' => "Failed",
-                    'message' => 'Gagal, Username atau Password salah!',
+                    'message' => 'Gagal, Username atau password salah!',
                     'result' => ''
                 ], 400);
             }
@@ -177,9 +178,9 @@ class UserController extends Controller
         }
     }
 
-    public function checkNip($nip){
-        $checkNip = User::where('nip', $nip)->count();
-        if ($checkNip > 0){
+    public function checkUsername($username){
+        $checkUsername = User::where('username', $username)->count();
+        if ($checkUsername > 0){
             return 1;
         }
         else {
@@ -261,16 +262,16 @@ class UserController extends Controller
                     ->where('tb_user.id_user', $id_user)
                     ->where('tb_user.level', 'siswa')
                     ->first(['tb_user.*', 'tb_siswa.username', 'tb_siswa.nisn', 'tb_siswa.nama', 'tb_siswa.kelas',
-                        'tb_siswa.tanggal_lahir', 'tb_siswa.agama', 'tb_siswa.alamat', 'tb_siswa.foto', 'tb_siswa.asal_sekolah',
-                        'tb_siswa.status_asal_sekolah', 'tb_siswa.nama_ayah', 'tb_siswa.umur_ayah', 'tb_siswa.agama_ayah', 'tb_siswa.pendidikan_terakhir_ayah',
-                        'tb_siswa.pekerjaan_ayah', 'tb_siswa.nama_ibu', 'tb_siswa.umur_ibu', 'tb_siswa.agama_ibu', 'tb_siswa.pendidikan_terakhir_ibu','tb_siswa.pekerjaan_ibu',
-                        'tb_siswa.tempat_lahir', 'tb_siswa.created_at','tb_siswa.updated_at']);
+                      'tb_siswa.tanggal_lahir', 'tb_siswa.agama', 'tb_siswa.alamat', 'tb_siswa.foto', 'tb_siswa.asal_sekolah',
+                      'tb_siswa.status_asal_sekolah', 'tb_siswa.nama_ayah', 'tb_siswa.umur_ayah', 'tb_siswa.agama_ayah', 'tb_siswa.pendidikan_terakhir_ayah',
+                      'tb_siswa.pekerjaan_ayah', 'tb_siswa.nama_ibu', 'tb_siswa.umur_ibu', 'tb_siswa.agama_ibu', 'tb_siswa.pendidikan_terakhir_ibu','tb_siswa.pekerjaan_ibu',
+                      'tb_siswa.tempat_lahir', 'tb_siswa.created_at','tb_siswa.updated_at']);
             } elseif ($level == "guru") {
                 $dataUser = User::join('tb_guru', 'tb_user.id_user', '=', 'tb_guru.user_id')
                     ->where('tb_user.id_user', $id_user)
                     ->where('tb_user.level', 'guru')
                     ->first(['tb_user.*', 'tb_guru.nama', 'tb_guru.username',
-                        'tb_guru.alamat', 'tb_guru.nip','tb_guru.foto', 'tb_guru.email', 'tb_guru.created_at', 'tb_guru.updated_at']);
+                     'tb_guru.alamat', 'tb_guru.nip','tb_guru.foto', 'tb_guru.email', 'tb_guru.created_at', 'tb_guru.updated_at']);
             }
 
             if (!$dataUser){
@@ -313,16 +314,16 @@ class UserController extends Controller
                     ->first(['tb_user.*', 'tb_siswa.*']);
 
 
-                if($request->hasFile('foto')){
-                    $foto = $request->file('foto');
-                } else {
-                    return response()->json([
-                        'code' => 404,
-                        'status' => "Failed",
-                        'message' => 'Image not found',
-                        'result' => ''
-                    ], 404);
-                }
+                    if($request->hasFile('foto')){
+                        $foto = $request->file('foto');
+                    } else {
+                        return response()->json([
+                            'code' => 404,
+                            'status' => "Failed",
+                            'message' => 'Image not found',
+                            'result' => ''
+                        ], 404);
+                    }
 
                 $foto_name = $siswa->nisn.'_'.$foto->getClientOriginalName();
 
@@ -341,13 +342,13 @@ class UserController extends Controller
                     ], 400);
                 } else {
                     $dataUser = User::join('tb_siswa', 'tb_user.id_user', '=', 'tb_siswa.user_id')
-                        ->where('tb_user.id_user', $id_user)
-                        ->where('tb_user.level', 'siswa')
-                        ->first(['tb_user.*', 'tb_siswa.username', 'tb_siswa.nisn', 'tb_siswa.nama', 'tb_siswa.kelas',
-                            'tb_siswa.tanggal_lahir', 'tb_siswa.agama', 'tb_siswa.alamat', 'tb_siswa.foto', 'tb_siswa.asal_sekolah',
-                            'tb_siswa.status_asal_sekolah', 'tb_siswa.nama_ayah', 'tb_siswa.umur_ayah', 'tb_siswa.agama_ayah', 'tb_siswa.pendidikan_terakhir_ayah',
-                            'tb_siswa.pekerjaan_ayah', 'tb_siswa.nama_ibu', 'tb_siswa.umur_ibu', 'tb_siswa.agama_ibu', 'tb_siswa.pendidikan_terakhir_ibu', 'tb_siswa.pekerjaan_ibu',
-                            'tb_siswa.tempat_lahir', 'tb_siswa.created_at','tb_siswa.updated_at']);
+                    ->where('tb_user.id_user', $id_user)
+                    ->where('tb_user.level', 'siswa')
+                    ->first(['tb_user.*', 'tb_siswa.username', 'tb_siswa.nisn', 'tb_siswa.nama', 'tb_siswa.kelas',
+                      'tb_siswa.tanggal_lahir', 'tb_siswa.agama', 'tb_siswa.alamat', 'tb_siswa.foto', 'tb_siswa.asal_sekolah',
+                      'tb_siswa.status_asal_sekolah', 'tb_siswa.nama_ayah', 'tb_siswa.umur_ayah', 'tb_siswa.agama_ayah', 'tb_siswa.pendidikan_terakhir_ayah',
+                      'tb_siswa.pekerjaan_ayah', 'tb_siswa.nama_ibu', 'tb_siswa.umur_ibu', 'tb_siswa.agama_ibu', 'tb_siswa.pendidikan_terakhir_ibu', 'tb_siswa.pekerjaan_ibu',
+                      'tb_siswa.tempat_lahir', 'tb_siswa.created_at','tb_siswa.updated_at']);
 
                     return response()->json([
                         'code' => 200,
@@ -390,10 +391,10 @@ class UserController extends Controller
                     ], 400);
                 } else {
                     $dataUser = User::join('tb_guru', 'tb_user.id_user', '=', 'tb_guru.user_id')
-                        ->where('tb_user.id_user', $id_user)
-                        ->where('tb_user.level', 'guru')
-                        ->first(['tb_user.*', 'tb_guru.nama', 'tb_guru.username',
-                            'tb_guru.alamat', 'tb_guru.nip','tb_guru.foto', 'tb_guru.email', 'tb_guru.created_at', 'tb_guru.updated_at']);
+                    ->where('tb_user.id_user', $id_user)
+                    ->where('tb_user.level', 'guru')
+                    ->first(['tb_user.*', 'tb_guru.nama', 'tb_guru.username',
+                     'tb_guru.alamat', 'tb_guru.nip','tb_guru.foto', 'tb_guru.email', 'tb_guru.created_at', 'tb_guru.updated_at']);
 
 
                     return response()->json([
